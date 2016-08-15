@@ -90,11 +90,13 @@ class SimClass(object):
             ranked_results_idx_ = np.argsort(results, axis=0, )[::-1][:self.number_of_similar]
             res_df = pd.DataFrame()
             res_df['text'] = [self.df['text'][i] for i in ranked_results_idx_]
+            res_df['score'] = results[ranked_results_idx_]
             return res_df
         else:
             ranked_results_idx_ = np.argsort(results, axis=0, )[:self.number_of_similar]
             res_df = pd.DataFrame()
             res_df['text'] = [self.df['text'][i] for i in ranked_results_idx_]
+            res_df['score'] = results[ranked_results_idx_]
             return res_df
 
 
@@ -126,7 +128,7 @@ def main():
     ut.init_logging()
     sc = SimClass('/Users/david/Abzooba/data', 5)
     sc.fit()
-    a = sc.predict(sc.raw_data[10])
+    a = sc.predict(sc.raw_data[3])
     logging.info("Most similar texts !\n\n")
     res = sc.rank_items(a)
     logging.info(res['text'].iloc[0])
@@ -136,7 +138,7 @@ def main():
     logging.info(res['text'].iloc[4])
 
     logging.info("Less similar texts !\n\n")
-    res = sc.rank_items(a,pos=False)
+    res = sc.rank_items(a, pos=False)
     logging.info(res['text'].iloc[0])
     logging.info(res['text'].iloc[1])
     logging.info(res['text'].iloc[2])
